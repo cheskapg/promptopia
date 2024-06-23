@@ -1,31 +1,31 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 import Form from "@components/Form";
-const editPrompt = async (e) => {
-  e.preventDefault();
-  setSubmitting(true); //LOADER
-  if (!prompt.id) return alert("Prompt ID is not Found");
+// const editPrompt = async (e) => {
+//   e.preventDefault();
+//   setSubmitting(true); //LOADER
+//   if (!prompt.id) return alert("Prompt ID is not Found");
 
-  try {
-    const response = await fetch(`/api/prompt/${promptId}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        prompt: post.prompt,
-        tag: post.tag,
-      }),
-    });
-    if (response.ok) {
-      router.push("/");
-    }
-  } catch {
-    console.log("something went wrong");
-  } finally {
-    setSubmitting(false);
-  }
-};
+//   try {
+//     const response = await fetch(`/api/prompt/${promptId}`, {
+//       method: "PATCH",
+//       body: JSON.stringify({
+//         prompt: post.prompt,
+//         tag: post.tag,
+//       }),
+//     });
+//     if (response.ok) {
+//       router.push("/");
+//     }
+//   } catch {
+//     console.log("something went wrong");
+//   } finally {
+//     setSubmitting(false);
+//   }
+// };
 const EditPrompt = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -53,7 +53,7 @@ const EditPrompt = () => {
   const editPrompt = async (e) => {
     e.preventDefault();
     setSubmitting(true); //LOADER
-    if(!promptId) return alert("Prompt ID is not Found"); 
+    if (!promptId) return alert("Prompt ID is not Found");
     try {
       const response = await fetch(`/api/prompt/${promptId}`, {
         method: "PATCH",
@@ -72,13 +72,15 @@ const EditPrompt = () => {
     }
   };
   return (
-    <Form
-      type="Edit"
-      post={post}
-      setPost={setPost}
-      submitting={submitting}
-      handleSubmit={editPrompt}
-    />
+    <Suspense>
+      <Form
+        type="Edit"
+        post={post}
+        setPost={setPost}
+        submitting={submitting}
+        handleSubmit={editPrompt}
+      />
+    </Suspense>
   );
 };
 
