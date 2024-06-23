@@ -53,6 +53,7 @@ const EditPrompt = () => {
   const editPrompt = async (e) => {
     e.preventDefault();
     setSubmitting(true); //LOADER
+    if(!promptId) return alert("Prompt ID is not Found"); 
     try {
       const response = await fetch(`/api/prompt/${promptId}`, {
         method: "PATCH",

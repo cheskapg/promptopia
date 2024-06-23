@@ -36,19 +36,19 @@ export const PATCH = async (request, {params}) => {
         return new Response(JSON.stringify({msg: error.message}), {status: 500});
     }
 };
-export const DELETE = async (request, {params}) => {
-    const { prompt, tag } = await request.json();
+export const DELETE = async (request, { params }) => {
     try {
-        await connectToDb();
-
-        const existingPrompt = await Prompt.findId(params.id);    
-        if (!existingPrompt) {
-            return new Response(JSON.stringify({msg: 'Prompt not found'}), {status: 404});
-        }
-
-        return new Response(JSON.stringify(existingPrompt), {status: 200});
+      await connectToDb();
+  
+      const deletedPrompt = await Prompt.findByIdAndDelete(params.id);
+      console.log(params.id, "has been deleted");
+      if (!deletedPrompt) {
+        return new Response(JSON.stringify({ msg: 'Prompt not found' }), { status: 404 });
+      }
+  
+      return new Response(JSON.stringify({ msg: 'Prompt deleted successfully' }), { status: 200 });
+    } catch (error) {
+      console.error('Error deleting prompt:', error);
+      return new Response(JSON.stringify({ msg: 'Error deleting prompt', error: error.message }), { status: 500 });
     }
-    catch (error) {
-        return new Response(JSON.stringify({msg: error.message}), {status: 500});
-    }
-};
+  };
