@@ -17,10 +17,10 @@ const PromptCard = ({ prompt, handleTagClick, handleEdit, handleDelete }) => {
     }, 3000);
   };
   const handleProfileClick = () => {
-    if (prompt.creator._id === session?.user.id) return router.push("/profile");
+    // if (prompt.creator._id === session?.user.id) return router.push("/profile");
 
     router.push(
-      `/profile/${prompt.creator._id}?name=${prompt.creator.username}`,
+      `/profile?id=${prompt.creator._id}`,
     );
   };
 

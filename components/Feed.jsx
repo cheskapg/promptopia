@@ -5,7 +5,7 @@ import PromptCard from "./PromptCard";
 const PromptCardList = ({ promptList, handleTagClick }) => {
   return (
     <div className="prompt_layout mt-16">
-      {promptList.map((prompt,index) => (
+      {promptList.map((prompt, index) => (
         <PromptCard
           key={index}
           prompt={prompt}
@@ -17,19 +17,49 @@ const PromptCardList = ({ promptList, handleTagClick }) => {
 };
 
 const Feed = () => {
-
   const [promptList, setPromptList] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+
   const [searchText, setSearchText] = useState("");
-  const handleSearchTextChange = (e) => {};
+ 
+  const handleSearchTextChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     const response = await fetch("/api/prompt");
+  //     const data = await response.json();
+  //     setPromptList(data);
+  //   };
+  //   fetchPosts();
+  // }, []);
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch("/api/prompt");
-      const data = await response.json();
-      setPromptList(data);
-      console.log(data, 'PROPTS');
-    };
-    fetchPosts();
-  }, []);
+    if (searchText !== "") {
+      const filtered = promptList.filter((prompt) => {
+        if (prompt.prompt.toLowerCase().includes(searchText.toLowerCase())) {
+          return true;
+        }
+        if (prompt.creator.username.toLowerCase().includes(searchText.toLowerCase())) {
+          return true;
+        }
+        if (prompt.tag.toLowerCase().includes(searchText.toLowerCase())) {
+          return true;
+        }
+        return false;
+      });
+      setPromptList(filtered);
+    } else {
+      const fetchPosts = async () => {
+        const response = await fetch("/api/prompt");
+        const data = await response.json();
+        setPromptList(data);
+      };
+      fetchPosts();
+    }
+  }, [searchText]);
+
   return (
     <section className="feed">
       <form className="flex-center relative w-full">
@@ -41,7 +71,7 @@ const Feed = () => {
           className="search_input peer"
         />
       </form>
-      <PromptCardList promptList={promptList}  />
+      <PromptCardList promptList={promptList} />
     </section>
   );
 };

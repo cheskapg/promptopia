@@ -40,7 +40,7 @@ const Nav = () => {
             <button type="button" className="outline_btn" onClick={signOut}>
               Sign Out
             </button>
-            <Link href="/profile">
+            <Link href={`/profile?id=${session?.user.id}`}>
               <Image
                 src={session?.user.image}
                 className="rounded-full"
@@ -84,7 +84,7 @@ const Nav = () => {
             {toggleDropdown && (
               <div className="dropdown">
                 <Link
-                  href="/profile"
+                  href={`/profile/${session?.user.id}`}
                   className="dropdown_link"
                   onClick={() => setToggleDropdown(false)}
                 >
