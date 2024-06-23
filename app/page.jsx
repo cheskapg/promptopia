@@ -13,8 +13,13 @@ const Home = () => {
         <br />
         Get inspired and create something amazing!
       </p>
+      <section>
+          <Feed />
+    </section>
+
     </section>
     // feed
+
   );
 };
 
