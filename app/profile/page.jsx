@@ -1,10 +1,19 @@
 "use client";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState,Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 import Profile from "@components/Profile";
+const profilePage = () => {
+  return (
+    <Suspense fallback={<><p>Loading...</p></>}>
+      <MyProfile />
+    </Suspense>
+  );
+}
+export default profilePage;
+
 const MyProfile = () => {
   const router = useRouter();
 
@@ -67,4 +76,3 @@ const MyProfile = () => {
   );
 };
 
-export default MyProfile;
