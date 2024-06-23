@@ -26,6 +26,17 @@ import Form from "@components/Form";
 //     setSubmitting(false);
 //   }
 // };
+const updatePage = () => {
+ 
+  return (
+    <Suspense fallback={<><p>Loading...</p></>}>
+      <EditPrompt />
+    </Suspense>
+  );
+};
+
+export default updatePage;
+
 const EditPrompt = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -72,7 +83,6 @@ const EditPrompt = () => {
     }
   };
   return (
-    <Suspense>
       <Form
         type="Edit"
         post={post}
@@ -80,8 +90,6 @@ const EditPrompt = () => {
         submitting={submitting}
         handleSubmit={editPrompt}
       />
-    </Suspense>
   );
 };
 
-export default EditPrompt;
